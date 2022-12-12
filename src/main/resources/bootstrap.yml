@@ -8,7 +8,7 @@ spring:
   application:
     name: ms-gateway
   config:
-    import: optional:http://localhost:8888/
+    import: optional:http://config-server:8888/
   cloud:
     gateway:
       discovery:
@@ -16,14 +16,14 @@ spring:
           enabled: true
       routes:
         - id: ms-customer
-          uri: lb://ms-customer
+          uri: http://ms-customer:8082/
           predicates:
             - Path=/api/customer/**
         - id: ms-account
-          uri: lb://ms-account
+          uri: http://ms-account:8081/
           predicates:
             - Path=/api/account/**
         - id: ms-credit
-          uri: lb://ms-credit
+          uri: http://ms-credit:8083/
           predicates:
             - Path=/api/credits/**

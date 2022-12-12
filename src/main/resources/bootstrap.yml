@@ -1,5 +1,29 @@
+server:
+  port: 8090
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
 spring:
   application:
     name: ms-gateway
   config:
     import: optional:http://localhost:8888/
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+      routes:
+        - id: ms-customer
+          uri: lb://ms-customer
+          predicates:
+            - Path=/api/customer/**
+        - id: ms-account
+          uri: lb://ms-account
+          predicates:
+            - Path=/api/account/**
+        - id: ms-credit
+          uri: lb://ms-credit
+          predicates:
+            - Path=/api/credits/**
